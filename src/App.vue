@@ -19,8 +19,6 @@
 import headBar from '@c/header'
 import player from '@c/player'
 
-
-
 export default {
   name: 'app',
    components: {

@@ -12,10 +12,11 @@
 
 export default {
 	name: 'range',
-	props:['percent'], //进度
+	props:['percent','autoShowDot'], //进度
 	data() {
 		return {
 			//用随机数为ref命名，避免冲突
+			showDotFlag:false,
 			ref1:Math.random().toString(36).substr(2),
 			ref2:Math.random().toString(36).substr(2),
 			ref3:Math.random().toString(36).substr(2),
@@ -27,6 +28,7 @@ export default {
 		}   //
 	},
 	methods: {
+		//根据prop autoShowDot 设置是否展示
 		//调整dot的left 和播放条的长度
 		setStyle(){
 			this.$refs[this.ref2].style.width=this.percentStr;
@@ -69,9 +71,11 @@ export default {
 		}
 	},
 	created() {
+		this.showDotFlag=this.autoShowDot;
 
 	},
 	mounted(){
+		!this.autoShowDot?this.$refs[this.ref1].classList.add('hide'):null;
 		var that=this;
 		this.$refs[this.ref1].onmousedown=function(e){
 			document.body.addEventListener('mousemove',that.calcStyle,false);
@@ -117,6 +121,15 @@ export default {
 		}
 		&:hover{
 			box-shadow: 0 0 6px #888;
+		}
+		&.hide{
+			display:none;
+		}
+	}
+	
+	&:hover{
+		.dot,.dot.hide{
+			display:block;
 		}
 	}
 }
