@@ -1,0 +1,83 @@
+$lightRed:#eec1c1;
+$baseRed:#C62F2F;
+$darkRed:#a82828;
+$baseBlack:#5c5c5c;
+$basehui:#cfcfd1;
+
+*{
+    box-sizing: border-box !important; 
+}
+.psr{
+	position:relative;
+}
+
+.psa{
+	position:absolute;
+}
+
+.center{
+	text-align:center ;
+}
+
+.fcfff{
+    color:#fff;
+}
+/*水平垂直居中(不确定宽高)*/
+.wh-center{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform:translate(-50% ,-50%);
+  -moz-transform:translate(-50%, -50%);
+  -ms-transform:translate(-50% ,-50%);
+  -o-transform:translate(-50%, -50%);
+}
+/*垂直居中(不确定高)*/
+.h-center{
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+  -webkit-transform:translateY(-50%);
+  -moz-transform:translateY(-50%);
+  -ms-transform:translateY(-50%);
+  -o-transform:translateY(-50%);
+}
+
+.w-center{
+  position: absolute;
+  left:50%;
+  transform: translateX(-50%);
+  -webkit-transform:translateX(-50%);
+  -moz-transform:translateX(-50%);
+  -ms-transform:translateX(-50%);
+  -o-transform:translateX(-50%);
+}
+
+/*mixin*/
+/*灰色按钮*/
+@mixin btn-hui { 
+    padding:4px 8px;
+    display: flex; 
+    align-items: center;
+    min-width: 60px;
+    border:1px solid #ccc;
+    border-radius: 4px;
+    justify-content: space-around; 
+}
+
+@mixin flex-w-center { 
+    display:flex;
+    justify-content: space-around;
+}
+
+@mixin flex-h-center { 
+    display:flex;
+    align-items: center;
+}
+
+@mixin flex-wh-center { 
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+}
