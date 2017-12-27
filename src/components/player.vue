@@ -39,35 +39,36 @@
 			</div>
 		</div>
 
-		<audio id="musicPlayer" style="display:none" :src="currentMusic.src"></audio>
+		<audio id="musicPlayer" style="display:none" :src="currentMusic.url"></audio>
 	</div>
 </template>
 
 <script>
-	const musicList = [{
-			name: 'whataya want from me',
-			src: 'http://192.168.2.199/1.mp3',
-		},
-		{
-			name: 'whataya want from me',
-			src: 'http://192.168.2.199/2.mp3',
-		} ,
-		{
-			name: 'whataya want from me',
-			src: 'http://192.168.2.199/3.mp3',
-		} ,
-		{
-			name: 'whataya want from me',
-			src: 'http://192.168.2.199/4.mp3',
-		},
-		{
-			name: 'whataya want from me',
-			src: 'http://192.168.2.199/20.mp3',
-		}
-	];
+//	const this.musicList = [{
+//			name: 'whataya want from me',
+//			src: 'http://192.168.2.199/1.mp3',
+//		},
+//		{
+//			name: 'whataya want from me',
+//			src: 'http://192.168.2.199/2.mp3',
+//		} ,
+//		{
+//			name: 'whataya want from me',
+//			src: 'http://192.168.2.199/3.mp3',
+//		} ,
+//		{
+//			name: 'whataya want from me',
+//			src: 'http://192.168.2.199/4.mp3',
+//		},
+//		{
+//			name: 'whataya want from me',
+//			src: 'http://192.168.2.199/20.mp3',
+//		}
+//	];
 
 	import range from '@c/range'
-	import { searchMusic } from '@api/apifuns'
+	import apifuns from '@api/apifuns'
+	import {mapState,mapMutations,mapActions} from "vuex"
 	export default {
 		name: 'player',
 		components: {
@@ -76,7 +77,7 @@
 		data() {
 			return {
 				//自动播放
-				autoPlay: false,
+				autoPlay: true,
 				//播放模式
 				playMode: 'shunxu',
 				//当前播放下标
@@ -85,8 +86,10 @@
 				playedIndexList: [],
 				//当前播放进度
 				musicPercent: 0,
-				//当前播放音乐对象
-				currentMusic: {},
+				//当前歌单
+				//musicList:[],
+				//当前播放音乐SRC
+				currentMusic:{},
 				//当前播放音乐总时间 秒
 				currentMusicLength: 0,
 				//当前播放音乐 已播放时间
@@ -103,6 +106,13 @@
 				nextFlag:true
 			}
 		},
+		computed:{
+			...mapState({
+			    musicList:state => state.player.srcList,
+			    storeIndex:state => state.player.srcIndex,
+			}),
+			//...mapState(['player/src']),
+		},
 		filters: {
 			formatTime(value) {
 				let min = parseInt(value / 60);
@@ -113,6 +123,9 @@
 			}
 		},
 		methods: {
+			
+//			...mapMutations (['changeSrcList']),
+			
 			//获取播放音乐总长度
 			getMusicLength() {
 				this.currentMusicLength = parseInt(musicPlayer.duration);
@@ -172,7 +185,7 @@
 						this.stopInt();
 						this.play();
 					}else if(this.playMode==="shunxu"){
-						this.currentIndex!==musicList.length-1?this.nextMusic():null
+						this.currentIndex!==this.musicList.length-1?this.nextMusic():null
 					}else{
 						this.nextMusic();
 					}
@@ -221,16 +234,18 @@
 				if(this.playMode==='suiji'){
 					let random=null;
 		  			for(let i=0;i<9999;i++){
-		  				random=Math.floor(Math.random()*(musicList.length));
+		  				random=Math.floor(Math.random()*(this.musicList.length));
 		  				if(this.currentIndex!==random){
 		  					this.currentIndex=random;
 		  					break;
 		  				}
 		  			}
-		  			this.currentMusic=musicList[this.currentIndex];
+		  			this.currentMusic=this.musicList[this.currentIndex];
 				}else{
-					this.currentIndex===musicList.length-1?this.currentIndex=0:this.currentIndex++;
-					this.currentMusic=musicList[this.currentIndex];
+					this.currentIndex===this.musicList.length-1?this.currentIndex=0:this.currentIndex++;
+					console.log(this.currentIndex);
+					this.currentMusic=this.musicList[this.currentIndex];
+					console.log(this.currentMusic);
 				}
 			},
 			prevMusic(){
@@ -238,9 +253,17 @@
 				this.nextFlag=false;
 				if(this.playedIndexList.length>1){
 					this.currentIndex=this.playedIndexList[this.playedIndexList.length-2];
-					this.currentMusic=musicList[this.currentIndex];
+					this.currentMusic=this.musicList[this.currentIndex];
 					this.playedIndexList.pop();
 					console.log(this.playedIndexList);
+				}else{
+					if(this.currentIndex===0){
+						this.currentIndex=this.musicList.length-1;
+						this.currentMusic=this.musicList[this.currentIndex];
+					}else{
+						this.currentIndex--;
+						this.currentMusic=this.musicList[this.currentIndex];
+					}
 				}
 			},
 
@@ -257,20 +280,53 @@
 			currentMusic() {
 				this.stopInt();
 				this.musicPercent = 0;
+			},
+			storeIndex(){
+				this.currentIndex=this.storeIndex;
+				this.currentMusic=this.musicList[this.storeIndex];
 			}
 		},
 
-		created: function() {
-			/*searchMusic("黑色毛衣").then(data=>{
+		async created() {
+			/*apifuns.searchMusic("黑色毛衣").then(data=>{
 				console.log(data);
-			})*/
+			});*/
+			let PlayList=await apifuns.highPlayList(5).then(data=>{
+				return data.playlists
+			});
+			
+			
+//			apifuns.getPlayList(PlayList[0].id).then(data=>{
+//				console.log(data);
+//			})
+			
+//			apifuns.getMusicSrc(PlayList[0].id).then(data=>{
+//				console.log(data);
+//				this.changeSrcList(data.data);
+//				this.currentMusic=this.musicList[0];
+//				this.formatPlayer();
+//			})
+			let data={
+				id:PlayList[0].id,
+				index:3,
+			}
+//			
+			console.log("iiiiiiiiiiiiiiiii");
+			console.log(this.storeIndex);
+			await this.$store.dispatch("getSrcList",data);
+			//this.currentMusic=this.musicList[0];
+
+
+			
+			console.log(this.$store);
+//			apifuns.getPlayList(PlayList[0].id).then(data=>{
+//				console.log(data);
+//			});
+			
 
 		},
 		mounted() {
-			this.currentMusic = musicList[this.currentIndex];
-			var that = this;
 			this.formatPlayer();
-
 		}
 	}
 </script>

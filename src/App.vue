@@ -4,7 +4,7 @@
   	<div class="aside">
       asdide
   	</div>
-  	
+  	<h1></h1>
   	<div class="rightBox">
   		<router-view  name="rightBox"></router-view>
   	</div>
