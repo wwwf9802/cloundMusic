@@ -1,13 +1,14 @@
 <template>
   <div id="app">
-  	<headBar></headBar>
-  	<div class="aside">
-      asdide
+  	<headBar/>
+  	<div class="mainBody">
+  		<router-view></router-view>
   	</div>
-  	<h1></h1>
+  	<!--<div class="aside">
+  	</div>
   	<div class="rightBox">
   		<router-view  name="rightBox"></router-view>
-  	</div>
+  	</div>-->
   	
   	<div class="bottomPlayer">
       <player/>
@@ -35,12 +36,22 @@ export default {
 	width:100%;
 	min-width:1024px;
 	height:50px;
-	border:1px solid red;
 	bottom:0;
 	left:0;
 	right:0;
 	
 }
+
+.mainBody{
+	width:100%;
+	position:absolute;
+	top:50px;
+	bottom:50px;
+	left:0;
+	right:0;
+	min-width:1024px;
+}
+
 
 #app{
 	min-width: 1024px !important;

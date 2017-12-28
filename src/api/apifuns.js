@@ -56,23 +56,21 @@ function getPlayList(id) {
     });
 }
 
-async function getMusicSrc(id){
-	let idsData=await getPlayList(id);
-	console.log(idsData);
+async function getMusicSrc(idData){
 	let idStr='';
-	idsData.privileges.forEach((item,index)=>{
-		idStr+=''+item.id+',';
-	})
-	idStr = idStr.substr(0, idStr.length - 1);  
-	console.log(idStr);
-	let data={
-		id:idStr
+	if(idData instanceof Array){
+		idData.forEach((item,index)=>{
+			idStr+=''+item.id+',';
+		})
+		idStr = idStr.substr(0, idStr.length - 1);  
+	}else{
+		idStr = idData;
 	}
 	return new Promise((resovle, reject) => {
         axios({
             method: "get",
             url: "/music/url",
-            params:data,
+            params:{id:idStr}
         }).then(function(response) {
             resovle(response.data);
         }).catch(function(error) {

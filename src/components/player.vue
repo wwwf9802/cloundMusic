@@ -39,7 +39,7 @@
 			</div>
 		</div>
 
-		<audio id="musicPlayer" style="display:none" :src="currentMusic.url"></audio>
+		<audio id="musicPlayer" style="display:none" :src="musicSrc"></audio>
 	</div>
 </template>
 
@@ -77,7 +77,7 @@
 		data() {
 			return {
 				//自动播放
-				autoPlay: true,
+				autoPlay: false,
 				//播放模式
 				playMode: 'shunxu',
 				//当前播放下标
@@ -86,9 +86,9 @@
 				playedIndexList: [],
 				//当前播放进度
 				musicPercent: 0,
-				//当前歌单
-				//musicList:[],
-				//当前播放音乐SRC
+				//当前音乐SRC
+				musicSrc:"",
+				//当前音乐对象
 				currentMusic:{},
 				//当前播放音乐总时间 秒
 				currentMusicLength: 0,
@@ -108,8 +108,8 @@
 		},
 		computed:{
 			...mapState({
-			    musicList:state => state.player.srcList,
-			    storeIndex:state => state.player.srcIndex,
+			    musicList:state => state.player.idList,
+			    storeIndex:state => state.player.idIndex,
 			}),
 			//...mapState(['player/src']),
 		},
@@ -280,6 +280,9 @@
 			currentMusic() {
 				this.stopInt();
 				this.musicPercent = 0;
+				apifuns.getMusicSrc(this.currentMusic.id).then(data=>{
+					this.musicSrc=data.data[0].url;
+				})
 			},
 			storeIndex(){
 				this.currentIndex=this.storeIndex;
@@ -288,45 +291,27 @@
 		},
 
 		async created() {
-			/*apifuns.searchMusic("黑色毛衣").then(data=>{
-				console.log(data);
-			});*/
-			let PlayList=await apifuns.highPlayList(5).then(data=>{
-				return data.playlists
-			});
-			
-			
-//			apifuns.getPlayList(PlayList[0].id).then(data=>{
-//				console.log(data);
-//			})
-			
-//			apifuns.getMusicSrc(PlayList[0].id).then(data=>{
-//				console.log(data);
-//				this.changeSrcList(data.data);
-//				this.currentMusic=this.musicList[0];
-//				this.formatPlayer();
-//			})
-			let data={
-				id:PlayList[0].id,
-				index:3,
-			}
-//			
-			console.log("iiiiiiiiiiiiiiiii");
-			console.log(this.storeIndex);
-			await this.$store.dispatch("getSrcList",data);
-			//this.currentMusic=this.musicList[0];
-
-
-			
-			console.log(this.$store);
 //			apifuns.getPlayList(PlayList[0].id).then(data=>{
 //				console.log(data);
 //			});
 			
 
 		},
-		mounted() {
+		async mounted() {
+			let PlayList=await apifuns.highPlayList(5).then(data=>{
+				return data.playlists
+			});
+			
+			let data={
+				id:PlayList[1].id,
+				index:3,
+			}
+//			
+			await this.$store.dispatch("getPlayList",data);
+			this.currentMusic=this.musicList[this.storeIndex];
+			
 			this.formatPlayer();
+			
 		}
 	}
 </script>

@@ -3,16 +3,16 @@ import apifuns from '@api/apifuns'
 
 export default {
 	state: {
-		src:{},
-		srcIndex:'33',
-		srcList:[],
+		id:{},
+		idIndex:'0',
+		idList:[],
 	},
 	mutations: {
-		changeSrcIndex(state,index) {
-			state.srcIndex = index;
+		changeIdIndex(state,index) {
+			state.idIndex = index;
 		},
-		changeSrcList(state,srcList) {
-			state.srcList = srcList;
+		changeIdList(state,idList) {
+			state.idList = idList;
 		},
 	},
 	getters: {
@@ -24,10 +24,12 @@ export default {
 		},
 	},
 	actions:{
-		async getSrcList({dispatch,commit,rootState},{id,index}){
-		 apifuns.getMusicSrc(id).then(data=>{
-				data&&commit("changeSrcList",data.data);
-				index&&commit("changeSrcIndex",index);
+		async getPlayList({dispatch,commit,rootState},{id,index}){
+			return apifuns.getPlayList(id).then(data=>{
+		 		console.log('ggggggggggggggggg');
+		 		console.log(data);
+				data&&commit("changeIdList",data.playlist.trackIds);
+				index&&commit("changeIdIndex",index);
 				
 			});
 			//let data=await api.mock1();

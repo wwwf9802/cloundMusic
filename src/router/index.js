@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import header from '@c/header'
-
+import aside from './aside.js'
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'header',
-      component: header
-    }
+  	{...aside}
+//  {
+//    path: '/',
+//    name: 'header',
+//    component: header
+//  }
   ]
 })
