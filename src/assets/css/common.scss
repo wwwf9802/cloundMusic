@@ -54,6 +54,12 @@ $basehui:#cfcfd1;
   -o-transform:translateX(-50%);
 }
 
+.ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /*mixin*/
 /*灰色按钮*/
 @mixin btn-hui { 
@@ -80,4 +86,10 @@ $basehui:#cfcfd1;
     display:flex;
     align-items: center;
     justify-content: space-around;
+}
+
+@mixin yichu { 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

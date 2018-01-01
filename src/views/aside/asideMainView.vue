@@ -38,16 +38,14 @@ export default {
 		left:0;
 		width:200px;
 		height:100%;
-		border:1px solid gold;
 	}
 	.rightBox{
 		position:absolute;
 		top:0;
 		bottom:0;
-		left:200px;
+		left:201px;
 		right:0;
 		overflow:auto;
-		border:1px solid red;
 	}
 }
 </style>

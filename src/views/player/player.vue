@@ -113,15 +113,6 @@
 			}),
 			//...mapState(['player/src']),
 		},
-		filters: {
-			formatTime(value) {
-				let min = parseInt(value / 60);
-				min < 10 ? min = '0' + min : null;
-				let second = value - 60 * min;
-				second < 10 ? second = '0' + second : null;
-				return min + ":" + second;
-			}
-		},
 		methods: {
 			
 //			...mapMutations (['changeSrcList']),
@@ -281,6 +272,9 @@
 				this.stopInt();
 				this.musicPercent = 0;
 				apifuns.getMusicSrc(this.currentMusic.id).then(data=>{
+					this.$store.commit('changeId',data.data[0].id);
+					
+					console.log('当前歌曲ID',this.$store.state.player.id);
 					this.musicSrc=data.data[0].url;
 				})
 			},
@@ -302,8 +296,10 @@
 				return data.playlists
 			});
 			
+			console.log(PlayList[1].id);
+			
 			let data={
-				id:PlayList[1].id,
+				id:733122887,
 				index:3,
 			}
 //			

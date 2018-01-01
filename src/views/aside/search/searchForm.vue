@@ -9,6 +9,7 @@
 					<th>歌手</th>
 					<th>专辑</th>
 					<th>时长</th>
+					<th>热度</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -21,12 +22,13 @@
 					<td>{{item.endTime}}</td>
 				</tr>-->
 				<tr v-for="(item,index) in musicList" v-show="matchItem(item)" @click="addActive(index)" @dblclick="changeMusic(index)" :class="{'active':index===active}">
-					<td><span v-if="item.id!==id">{{index+1}}</span><i v-else class="iconfont icon-yinliang1"></i></td>
+					<td><span v-if="item.id!==id">{{offset+index+1}}</span><i v-else class="iconfont icon-yinliang1"></i></td>
 					<td><i class="iconfont icon-xihuan1"></i><i class="iconfont icon-xiazai"></i></td>
-					<td>{{item.name}}<i v-show="item.mv" class="iconfont icon-mv"></i></td>
-					<td>{{item.ar[0].name}}</td>
-					<td>{{item.al.name}}</td>
-					<td>{{item.dt | formatMusicTime}}</td>
+					<td>{{item.name}}<i v-show="item.mvid" class="iconfont icon-mv"></i></td>
+					<td>{{item.artists[0].name}}</td>
+					<td>{{item.album.name}}</td>
+					<td>{{item.duration | formatMusicTime}}</td>
+					<td>100</td>
 				</tr>
 			</tbody>
 		</table>
@@ -34,92 +36,11 @@
 </template>
 
 <script>
-	const baseUrl="12345";
-	const jay = {
-	title: "Jay同名专辑",
-	maker: "嘉纹丶四世",
-	makeTime: "2017-07-07",
-	sign: "周杰伦",
-	jianjie: "周杰伦的第一张专辑！",
-	picture: "",
-	listener: "666万",
-	list: [{
-			name: "可爱女人",
-			singer: "周杰伦",
-			zhuanji: "Jay同名专辑",
-			endTime: "03:59",
-			src: baseUrl + "1.mp3",
-		},
-		{
-			name: "完美主义",
-			singer: "周杰伦",
-			zhuanji: "Jay同名专辑",
-			endTime: "04:04",
-			src: baseUrl + "2.mp3",
-		},
-		{
-			name: "星晴",
-			singer: "周杰伦",
-			zhuanji: "Jay同名专辑",
-			endTime: "04:19",
-			src: baseUrl + "3.mp3",
-		},
-		{
-			name: "娘子",
-			singer: "周杰伦",
-			zhuanji: "Jay同名专辑",
-			endTime: "04:31",
-			src: baseUrl + "4.mp3",
-		},
-		{
-			name: "斗牛",
-			singer: "周杰伦",
-			zhuanji: "Jay同名专辑",
-			endTime: "04:38",
-			src: baseUrl + "1.mp3",
-		},
-		{
-			name: "黑色幽默",
-			singer: "周杰伦",
-			zhuanji: "Jay同名专辑",
-			endTime: "04:43",
-			src: baseUrl + "2.mp3",
-		},
-		{
-			name: "伊斯坦堡",
-			singer: "周杰伦",
-			zhuanji: "Jay同名专辑",
-			endTime: "03:29",
-			src: baseUrl + "3.mp3",
-		},
-		{
-			name: "印第安老斑鸠",
-			singer: "周杰伦",
-			zhuanji: "Jay同名专辑",
-			endTime: "05:04",
-			src: baseUrl + "4.mp3",
-		},
-		{
-			name: "龙卷风",
-			singer: "周杰伦",
-			zhuanji: "Jay同名专辑",
-			endTime: "04:10",
-			src: baseUrl + "1.mp3",
-		},
-		{
-			name: "反方向的钟",
-			singer: "周杰伦",
-			zhuanji: "Jay同名专辑",
-			endTime: "04:18",
-			src: baseUrl + "2.mp3",
-		},
-	],
-}
 	import {mapState,mapMutations,mapActions} from "vuex"
 	export default {
 		name: 'musicForm',
 		components: {},
-		props:['musicList','matchStr'],
+		props:['musicList','matchStr','offset'],
 		data() {
 			return {
 				zhuanji:{},
@@ -137,10 +58,10 @@
 			},
 			changeMusic(index){
 				let data={
-					id:733122887,
+					arr:this.musicList,
 					index,
 				}
-				this.$store.dispatch("getPlayList",data);
+				this.$store.dispatch("changePlayListandIndex",data);
 			},
 			matchItem(item){
 				var reg = new RegExp(this.matchStr, 'i');
@@ -156,7 +77,7 @@
 	}
 </script>
 <style lang="scss" scoped>
-	.musicTable {
+.musicTable {
 		width: 100%;
 		tr {
 			width: 100%;
@@ -187,10 +108,13 @@
 				width:25%
 			}
 			th:nth-of-type(5) {
-				width:25%
+				width:20%
 			}
 			th:nth-of-type(6) {
-				min-width:80px;
+				min-width:100px;
+			}
+			th:nth-of-type(7) {
+				min-width: 120px;
 			}
 			td {
 				font-size: 12px;
@@ -223,7 +147,7 @@
 				.icon-yinliang1{
 					font-size: 18px;
 					position:relative;
-					left:3px;
+					left:6px;
 					color: #cd2929;
 				}
 				.icon-mv{
@@ -233,6 +157,33 @@
 					top:1px;
 				}
 			}
+			/*td:nth-of-type(1) {
+				width: 54px;
+				text-align: right;
+			}
+			td:nth-of-type(2) {
+				width: 54px;
+			}
+			td:nth-of-type(3) {
+				min-width: 260px;
+				max-width:600px;
+			}
+			td:nth-of-type(4) {
+				min-width: 185px;
+				max-width: 420px;
+			}
+			td:nth-of-type(5) {
+				min-width: 185px;
+				max-width: 420px;
+			}
+			td:nth-of-type(6) {
+				min-width: 82px;
+				max-width: 300px;
+			}
+			td:nth-of-type(7) {
+				min-width: 120px;
+				max-width: 120px;
+			}*/
 		}
 		tbody {
 			tr{

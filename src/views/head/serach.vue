@@ -1,21 +1,22 @@
 <template>
 	<div class="serach">
-		<input  placeholder="搜索音乐,歌手，歌词，用户" type="text" @focus="foc($event)" @blur="blu($event)">
+		<input  placeholder="搜索音乐,歌手，歌词，用户" type="text" @focus="foc($event)" @blur="blu($event)" @keyup="searchKeyUp($event)" v-model="value">
 		<i ref="serchIcon" class="icon iconfont icon-sousuo" :class="{'active':active}"></i>
 	</div>
 </template>
 
 <script>
-
+import {mapState,mapMutations,mapActions} from "vuex"
 export default {
 	name: 'serach',
 	data() {
 		return {
-			url1: "",
 			active:false,
+			value:"",
 		}
 	},
 	methods: {
+		...mapMutations(['changeKeyWords']),
 		foc(e){
 			this.active=true;
 			e.currentTarget.removeAttribute("placeholder");
@@ -23,6 +24,12 @@ export default {
 		blu(e){
 			this.active=false;
 			e.currentTarget.setAttribute("placeholder","搜索音乐,歌手，歌词，用户");
+		},
+		searchKeyUp(e){
+			if (event.keyCode == "13"&&this.value) {
+				let str=""+this.value;
+				this.changeKeyWords(str);
+        	}
 		}
 	},
 	created: function() {

@@ -1,13 +1,13 @@
 <template>
 	<div class="loginBar">
 		<div class="userHead">
-			<img src="../assets/img/head.png" alt="" />
+			<img src="../../assets/img/head.png" alt="" />
 		</div>
 		<span>Javan IV</span>
 		<i class="icon iconfont icon-xiangxiasanjiao"></i>
 		<hoverBox :top="'50px'" :width="'275px'" :height="'402px'">
 			<div class="top">
-				<img src="../assets/img/head.png" alt="" />
+				<img src="../../assets/img/head.png" alt="" />
 				<span>Javan IV</span>
 				<div class="btn">
 					<i class="icon iconfont icon-my-jifen"></i>

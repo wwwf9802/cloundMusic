@@ -4,6 +4,7 @@
   	<div class="mainBody">
   		<router-view></router-view>
   	</div>
+  	<lyric/>
   	<!--<div class="aside">
   	</div>
   	<div class="rightBox">
@@ -17,14 +18,16 @@
 </template>
 
 <script>
-import headBar from '@c/header'
-import player from '@c/player'
+import headBar from '@view/head/header'
+import player from '@view/player/player'
+import lyric from '@view/lyric/lyricMainView'
 
 export default {
   name: 'app',
    components: {
      headBar,
-     player
+     player,
+     lyric
     // <my-component> 将只在父模板可用
   }
 }
@@ -39,6 +42,7 @@ export default {
 	bottom:0;
 	left:0;
 	right:0;
+	border-top:1px solid #ddd;
 	
 }
 

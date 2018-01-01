@@ -3,10 +3,14 @@ axios.defaults.baseURL = '/api';
 axios.defaults.timeout = 10000;
 
 
-function searchMusic(musicName) {
+function searchMusic(keywords,limit=100,type=1,offset=0) {
 	let data={
-		keywords:musicName
+		keywords,
+		limit,
+		type,
+		offset
 	}
+	
     return new Promise((resovle, reject) => {
         axios({
             method: "get",

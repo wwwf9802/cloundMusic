@@ -137,6 +137,7 @@ export default {
 	bottom:0;
 	left:0;
 	overflow-y:auto;
+	border-right:1px solid #e1e1e2;
 	.title{
 		position:relative;
 		color:#7d7d7d;

@@ -219,3 +219,8 @@ body{
 	min-height: 672px;
     overflow:hidden;
 }
+
+body:-webkit-full-screen{
+	width:100%;
+	min-width:1024px;
+}

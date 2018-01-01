@@ -40,6 +40,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 	.hoverBox{
+		z-index:9999;
 		color:#333;
 		border:1px solid #c9c9c9;
 		border-top:none;
