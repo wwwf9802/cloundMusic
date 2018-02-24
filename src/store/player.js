@@ -6,6 +6,7 @@ export default {
 		id:0,
 		idIndex:null,
 		idList:[],
+		curMusicMsg:null,
 	},
 	mutations: {
 		changeId(state,num){

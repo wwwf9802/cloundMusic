@@ -1,5 +1,6 @@
 <template>
 	<div class="gedan">
+		<h1 style="font-size:30px;text-align: center;color:pink;line-height:40px;font-weight:bold">李怡果</h1>
 		<searchForm :musicList="musicList" :matchStr="str" :offset="offset"/>
 		<pagination style="margin:20px 0" :pages='pages' @update="changeOffset"/>
 	</div>
