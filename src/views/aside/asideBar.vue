@@ -108,6 +108,7 @@ export default {
 	methods: {
 		goTo(path){
 			this.act=path;
+			this.$router.push(path);
 		},
 		slideToggle(){
 			this.slideFlag=!this.slideFlag;

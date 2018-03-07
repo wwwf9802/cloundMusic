@@ -19,8 +19,11 @@
 				
 			</div>
 		</div>
-		<div class="lyricNormal">
-			<button @click="goMini">GO mini模式</button>
+		<div class="lyricNormal psr">
+			<div class="filterBox psa"></div>
+			<div class="content psa">
+				<button @click="goMini">GO mini模式</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -84,10 +87,19 @@ export default {
 
 .lyricNormal{
 	opacity:0;
-	background:red;
+	background-color:#fafafa;
 	width:100%;
 	height:100%;
 	transition: all linear .3s;
+	.content{
+		z-index:100;
+	}
+    .filterBox{
+    	width:100%;
+    	height:100%;
+    	background:url(../../assets/img/car.jpg) repeat;
+    	filter: blur(40px);
+    }
 }
 
 

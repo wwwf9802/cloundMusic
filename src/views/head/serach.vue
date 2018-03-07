@@ -27,8 +27,12 @@ export default {
 		},
 		searchKeyUp(e){
 			if (event.keyCode == "13"&&this.value) {
+				this.$router.push('search');
 				let str=""+this.value;
-				this.changeKeyWords(str);
+				
+				setTimeout(()=>{
+					this.changeKeyWords(str);
+				},1000);
         	}
 		}
 	},
